@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <div class="d-flex justify-content-between">
+        <h2>Transaction History</h2>
+    </div>
+    <br>
+    <table class="table tablestriped">
+        <thead>
+            <tr>
+                <th class="text-start">Symbol</th>
+                <th class="text-end">Shares</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">Transacted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td class="text-start">{{ transaction["symbol"] }}</td>
+                    <td class="text-end">
+                    {% if transaction["type"] == "BUY" %}+{% else %}-{% endif %}{{ transaction["shares"] }}</td>
+                    <td class="text-end">{{ transaction["price"] | usd }}</td>
+                    <td class="text-end">{{ transaction["timestamp"] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

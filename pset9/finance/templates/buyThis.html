@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <h2>Buy {{ stock["name"] }} at {{ stock["price"] }} per share</h2>
+    <br>
+    <form action="/buyThis" method="post">
+        <div class="mb-3">
+            <input type="hidden" name="symbol" value="{{stock["symbol"]}}">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" min="1" name="shares" placeholder="Shares" type="number" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Buy</button>
+    </form>
+{% endblock %}

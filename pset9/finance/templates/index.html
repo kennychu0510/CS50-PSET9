@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <div class="d-flex justify-content-between">
+        <h2>Welcome, {{ profile[0]["username"] }}</h2>
+    </div>
+    <br>
+    <table class="table tablestriped">
+        <thead>
+            <tr>
+                <th class="text-start">Symbol</th>
+                <th class="text-start">Name</th>
+                <th class="text-end">Shares</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+                <tr>
+                        <td class="align-middle text-start">{{ stock["symbol"] }}</td>
+                        <td class="align-middle text-start">{{ stock["name"] }}</td>
+                        <td class="align-middle text-end">{{ stock["shares"] }}</td>
+                        <td class="align-middle text-end">{{ stockPrice[stock["symbol"]] | usd }}</td>
+                        <td class="align-middle text-end">{{ (stockPrice[stock["symbol"]] * stock["shares"]) | usd }}</td>
+                        <td>
+                            <form action="/buyThis" method="get">
+                                <input name="symbol" type="hidden" value="{{ stock["symbol"] }}">
+                                <button class="btn btn-primary"  type="submit">Buy more</button>
+                             </form>
+                        </td>
+                        <td>
+                            <form action="/sellAll" method="post">
+                                <input name="symbol" type="hidden" value="{{ stock["symbol"] }}">
+                                <button class="btn btn-danger" type="submit">Sell All</button>
+                             </form>
+                        </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="border-0 fw-bold text-end" colspan="4">Cash</td>
+                <td class="border-0 text-end">{{ profile[0]["cash"] |usd }}</td>
+            </tr>
+            <tr>
+                <td class="border-0 fw-bold text-end" colspan="4">TOTAL</td>
+                <td class="border-0 text-end">{{ total | usd }}</td>
+            </tr>
+        </tfoot>
+
+    </table>
+{% endblock %}
